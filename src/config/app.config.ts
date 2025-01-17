@@ -17,3 +17,28 @@ export const appConfig: IAppConfig = {
   REQUESTS_PER_BATCH: Number(process.env.REQUEST_PER_BATCH) || 5,
   BATCH_SIZE: Number(process.env.BATCH_SIZE) || 5,
 }
+
+export const queryParameteres = {
+  DEFAULT_PAGE: 1,
+  DEFAULT_LIMIT: 10,
+  DEFAULT_SORT: "createdAt:-1",
+  MAX_LIMIT: 100,
+  VALID_SORT_FIELDS: [
+    "createdAt",
+    "age",
+    "email",
+    "name.first",
+    "name.last",
+    "address.country",
+  ],
+  VALID_SEARCH_FIELDS: [
+    "name",
+    "email",
+    "age",
+    "gender",
+    "dob",
+    "country",
+    "phone",
+    "address",
+  ],
+}

@@ -14,4 +14,6 @@ export interface IBatchMessage {
   batchNumber: number
   requestsInBatch: number
   totalRequests: number
+  isLastBatch?: boolean
+  lastBatchUserCount?: number
 }

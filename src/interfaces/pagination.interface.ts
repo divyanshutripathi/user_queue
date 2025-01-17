@@ -3,5 +3,8 @@ export interface IPagination<T> {
   limit: number
   page: number
   sortBy: string
+  totalPages: number
+  hasNext: boolean
+  hasPrevious: boolean
   items: T[]
 }

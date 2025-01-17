@@ -9,10 +9,8 @@ import { getUsersQuerySchema } from "../utils/validation"
 const router = Router()
 const userService = new UserService()
 
-// Initialize router with async setup
 let userController: UserController
 
-// Async initialization
 const initializeRouter = async () => {
   const queueService = await QueueService.getInstance()
   userController = new UserController(userService, queueService)
@@ -31,7 +29,6 @@ const initializeRouter = async () => {
   )
 }
 
-// Execute initialization
 initializeRouter().catch((error) => {
   console.error("Failed to initialize router:", error)
   process.exit(1)

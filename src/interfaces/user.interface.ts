@@ -1,27 +1,29 @@
-export interface IName {
+export interface IQueryOptions {
+  page?: number | string
+  limit?: number | string
+  sort?: string
+  search?: Record<string, any>
+}
+
+export interface IUserName {
   title: string
   first: string
   last: string
 }
 
-export interface IAddress {
+export interface IUserAddress {
   city: string
   state: string
   country: string
   street: string
 }
 
-export interface IItems {
-  id: string
+export interface IUser {
   gender: string
-  name: IName
-  address: IAddress
+  name: IUserName
+  address: IUserAddress
   email: string
-  age: string
+  age: number
   picture: string
   createdAt: Date
-}
-
-export interface ISearchQuery {
-  [key: string]: any
 }

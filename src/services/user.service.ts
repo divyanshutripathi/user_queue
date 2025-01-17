@@ -1,51 +1,59 @@
 import { User } from "../models/user.model"
 import { IPagination } from "../interfaces/pagination.interface"
+import { IQueryOptions, IUser } from "../interfaces/user.interface"
+import { QueryHelper } from "../utils/query.helper"
 
 export class UserService {
-  async getUsers(
-    page: number = 1,
-    limit: number = 10,
-    sortBy: string = "createdAt:-1",
-    search?: Record<string, any>
-  ): Promise<IPagination<any>> {
-    const skip = (page - 1) * limit
-    const query = this.buildSearchQuery(search)
-    console.log("sorrrtttttt : ", sortBy)
+  private readonly DEFAULT_PAGE = 1
+  private readonly DEFAULT_LIMIT = 10
+  private readonly DEFAULT_SORT = "createdAt:-1"
+  private readonly MAX_LIMIT = 100
 
-    const [total, items] = await Promise.all([
-      User.countDocuments(query),
-      User.find(query).sort(sortBy).skip(skip).limit(limit).lean(),
-    ])
+  async getUsers(options: IQueryOptions = {}): Promise<IPagination<IUser>> {
+    try {
+      const {
+        page = this.DEFAULT_PAGE,
+        limit = this.DEFAULT_LIMIT,
+        sort = this.DEFAULT_SORT,
+        search,
+      } = options
 
-    return {
-      total,
-      limit,
-      page,
-      sortBy,
-      items,
-    }
-  }
+      const sanitizedPage = Math.max(1, parseInt(String(page)))
+      const sanitizedLimit = Math.min(
+        this.MAX_LIMIT,
+        Math.max(1, parseInt(String(limit)))
+      )
+      const skip = (sanitizedPage - 1) * sanitizedLimit
 
-  private buildSearchQuery(search?: Record<string, any>): Record<string, any> {
-    if (!search) return {}
+      const searchQuery = QueryHelper.buildSearchQuery(search)
+      const sortConfig = QueryHelper.parseSortString(sort)
 
-    const query: Record<string, any> = {}
+      const [total, items] = await Promise.all([
+        User.countDocuments(searchQuery),
+        User.find(searchQuery)
+          .sort(sortConfig)
+          .skip(skip)
+          .limit(sanitizedLimit)
+          .lean()
+          .exec(),
+      ]).catch((error) => {
+        throw new Error(`Database query failed: ${error.message}`)
+      })
 
-    Object.entries(search).forEach(([key, value]) => {
-      if (value) {
-        if (key === "name") {
-          query.$or = [
-            { "name.first": new RegExp(value, "i") },
-            { "name.last": new RegExp(value, "i") },
-          ]
-        } else if (key === "age") {
-          query[key] = value
-        } else {
-          query[key] = new RegExp(value, "i")
-        }
+      return {
+        total,
+        limit: sanitizedLimit,
+        page: sanitizedPage,
+        sortBy: sort,
+        items,
+        totalPages: Math.ceil(total / sanitizedLimit),
+        hasNext: skip + items.length < total,
+        hasPrevious: sanitizedPage > 1,
       }
-    })
-
-    return query
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : "Unknown error occurred"
+      throw new Error(`Failed to fetch users: ${errorMessage}`)
+    }
   }
 }
