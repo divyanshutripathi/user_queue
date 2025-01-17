@@ -1,0 +1,81 @@
+{
+	"info": {
+		"_postman_id": "205f9d70-ba45-4560-aef9-0d44e48b8aff",
+		"name": "user_queue",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26968638"
+	},
+	"item": [
+		{
+			"name": "localhost:3000/api/v1/users?search={\"age\":{\"gte\":37}}&page=1&limit=10&sort=age:asc",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/api/v1/users?search={\"age\":{\"gte\":37}}&page=1&limit=10&sort=age:asc",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"users"
+					],
+					"query": [
+						{
+							"key": "search",
+							"value": "{\"age\":{\"gte\":37}}"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "limit",
+							"value": "10"
+						},
+						{
+							"key": "sort",
+							"value": "age:asc"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:3000/api/v1/users/fetch",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"totalUsers\": 117\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/api/v1/users/fetch",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"fetch"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
