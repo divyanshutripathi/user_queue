@@ -23,7 +23,7 @@ const initializeRouter = async () => {
   )
 
   router.post(
-    "/users/fetch",
+    "/users/add",
     rateLimiter,
     userController.initiateFetch.bind(userController)
   )

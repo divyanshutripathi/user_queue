@@ -64,9 +64,12 @@ Query Parameters:
 - `sort`: Sort field and order (e.g., "createdAt:-1")
 - `search`: Search term for filtering users
 
-### POST /api/v1/users/fetch
+### POST /api/v1/users/add
 
-Initiate batch fetching of users.
+Body:
+
+- `totalUsers`: Number
+  Initiate batch to add the total number of users mentioned. (default: 5000)
 
 ## Docker Services
 
