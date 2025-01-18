@@ -44,7 +44,7 @@ export class QueueService {
 
       // Initialize AMQP connection
       this.connection = await amqp.connect(
-        process.env.AMQP_URL || " amqp://localhost"
+        process.env.AMQP_URL || "amqp://localhost"
       )
       this.channel = await this.connection.createChannel()
       await this.channel.assertQueue(this.QUEUE_NAME, { durable: true })
