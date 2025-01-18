@@ -9,9 +9,9 @@ interface IAppConfig {
 }
 
 export const appConfig: IAppConfig = {
-  API_URL: "https://randomuser.me/api/",
+  API_URL: process.env.API_URL || "https://randomuser.me/api/",
   REQUESTS_PER_SECOND: Number(process.env.REQUEST_PER_SECOND) || 5,
-  RESULTS_PER_REQUEST: Number(process.env.RESULTS_PER_REQUEST) || 20,
+  RESULTS_PER_REQUEST: Number(process.env.RESULTS_PER_REQUEST) || 5000,
   SLEEP_TIME: Number(process.env.SLEEP_TIME) || 30000,
   BATCH_SLEEP: Number(process.env.BATCH_SLEEP) || 5000,
   REQUESTS_PER_BATCH: Number(process.env.REQUEST_PER_BATCH) || 5,
