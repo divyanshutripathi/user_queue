@@ -8,6 +8,7 @@
     "dev": "nodemon src/app.ts",
     "build": "tsc",
     "test": "jest",
+    "test-cov": "jest --coverage",
     "test:watch": "jest --watch",
     "lint": "eslint src/**/*.ts",
     "format": "prettier --write \"src/**/*.ts\""
